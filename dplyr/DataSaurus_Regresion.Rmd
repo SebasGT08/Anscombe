@@ -1,0 +1,58 @@
+---
+title: 'DataSaurus: Regresión Lineal en wide_lines'
+author: "SebasGT08"
+date: "2024-10-26"
+output: html_document
+---
+```{r setup, include=FALSE}
+# Configuración inicial para mostrar los chunks con código y cargar librerías necesarias
+knitr::opts_chunk$set(echo = TRUE)  # Mostrar código en la salida
+library(ggplot2)  # Librería para visualización de datos
+library(readr)  # Librería para leer archivos CSV
+library(dplyr)  # Librería para manipulación de datos
+```
+
+## Cargar Dataset desde un Archivo CSV
+
+En esta sección, cargaremos los datos desde un archivo CSV llamado `datasaurus_dozen.csv`. Asegúrate de que el archivo esté en el mismo directorio de trabajo que este documento o especifica la ruta completa del archivo.
+
+```{r cargar-dataset}
+# Cargar el dataset desde un archivo CSV
+datasaurus_dozen <- read_csv("../data/datasaurus_dozen.csv", show_col_types = FALSE)
+
+# Filtrar el subconjunto 'wide_lines' del dataset
+wide_lines <- datasaurus_dozen %>% filter(dataset == "wide_lines")
+
+# Mostrar un resumen estadístico del subconjunto 'wide_lines'
+summary(wide_lines)
+```
+
+## Regresión Lineal sobre el Subconjunto `wide_lines`
+
+A continuación, realizaremos una regresión lineal simple sobre el conjunto `wide_lines`. Vamos a predecir la variable `y` en función de `x`.
+
+```{r regresion-lineal}
+# Realizar la regresión lineal: y ~ x
+modelo <- lm(y ~ x, data = wide_lines)
+
+# Mostrar el resumen del modelo
+summary(modelo)
+```
+
+## Visualización de la Regresión Lineal
+
+Generaremos un gráfico de dispersión del subconjunto `wide_lines` con la línea de regresión ajustada.
+
+```{r grafico-regresion}
+# Crear gráfico de dispersión con línea de regresión
+ggplot(wide_lines, aes(x = x, y = y)) + 
+  geom_point(color = "blue") +  # Puntos del conjunto wide_lines
+  geom_smooth(method = "lm", se = FALSE, color = "red") +  # Línea de regresión
+  theme_minimal() + 
+  labs(title = "Regresión Lineal en wide_lines", x = "X", y = "Y")
+```
+
+## Conclusiones
+
+Con este análisis, hemos ajustado un modelo de regresión lineal simple para el subconjunto `wide_lines`. El gráfico muestra la línea de regresión junto con los datos. El resumen del modelo nos proporciona información sobre el ajuste del modelo, incluyendo los coeficientes y la significancia estadística.
+

@@ -1,0 +1,41 @@
+---
+title: "DataSaurus"
+author: "SebasGT08"
+date: "2024-10-26"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+# Configuración inicial para mostrar los chunks con código y cargar librerías necesarias
+knitr::opts_chunk$set(echo = TRUE)  # Mostrar código en la salida
+library(ggplot2)  # Librería para visualización de datos
+library(readr)  # Librería para leer archivos CSV
+```
+
+## Cargar Dataset desde un Archivo CSV
+
+En esta sección, cargaremos los datos desde un archivo CSV llamado `datasaurus_dozen.csv`. Asegúrate de que el archivo esté en el mismo directorio de trabajo que este documento o especifica la ruta completa del archivo.
+
+```{r cargar-dataset}
+# Cargar el dataset desde un archivo CSV utilizando read_csv()
+datasaurus_dozen <- read_csv("../data/datasaurus_dozen.csv", show_col_types = FALSE)
+
+# Mostrar un resumen estadístico del dataset para comprender mejor los datos
+summary(datasaurus_dozen)
+```
+
+## Visualización de los Datos
+
+A continuación, utilizaremos `ggplot2` para generar gráficos de dispersión para cada subconjunto del dataset. Esto nos permitirá visualizar las distribuciones de los datos y encontrar posibles patrones.
+
+```{r graficos-dataset}
+# Crear un gráfico de dispersión para cada subconjunto de datos utilizando facet_wrap()
+ggplot(datasaurus_dozen, aes(x = x, y = y, color = dataset)) + 
+  geom_point() +  # Usar puntos para representar los datos
+  theme_minimal() +  # Aplicar un tema limpio a los gráficos
+  facet_wrap(~dataset, scales = "free")  # Crear un gráfico independiente para cada conjunto
+```
+
+## Conclusiones
+
+Con este análisis visual, podemos observar cómo cada conjunto de datos tiene una distribución única a pesar de tener estadísticas similares. Esto demuestra la importancia de visualizar los datos, más allá de las medidas estadísticas básicas.
